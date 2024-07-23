@@ -1,0 +1,189 @@
+#include<iostream>
+#include<vector>
+#include<fstream>
+#include<string>
+#include<iomanip>
+#define FINANCEMANAGER_H
+using namesppace std;
+struct Transaction
+{
+    string type;
+    string category;
+    string date;
+    double amount;
+
+    Transaction (const string& t, const string& c, const string& d,double a):type(t), category(c), date(d), amount(a) {}
+};
+
+class FinanceManager{
+    public:
+    void addTransaction(const string& type, const string& category, const string& date, double amout);
+    void updateTransaction(int index, const string& type, const string& category, const string& date, double amount);
+    void deleteTransaction(int index);
+    void showTransaction()const;
+    void generateReport(const string& period) const;
+    void saveTransaction(const string& filename) const;
+    void loadTransaction(const string& filename);
+
+    private:
+    vector<Transaction> transaction;
+    void showSummary(const string& period) const;
+};
+void Financemanager::addTransaction(const string& type, const string& category const string& date, double amount)
+{
+    transactions.push_back(type, category, date, amount);
+}
+void FinanceManager::updateTransaction(int ndex, const string& type, const string& category, const string& date, double amount)
+{
+    if(index>=0 && index<transaction.size())
+    {
+        transactions[index]={type, category, date, amount;}
+    }
+    else if{
+        cout<<"Invalid transaction index./n";
+    }
+}
+void Financemanager::deleteTransaction(int index)
+{
+    if(index>=0 && index< transaction.size())
+    {
+        transactions.erase(transactions.begin() + index);
+    }
+    else 
+    {
+      cout<<"Invalid transaction index./n";      }
+}
+void Finanacemanager::showTransactions() const{
+    cout<<fixed<<setprecision(2);
+    fot(inti=0;i<transactions.size(); ++i)
+    {
+        cout<<I+1<<"."<<raansactions[i].type<<"|"<<transaction[i].category<<"|"<<transactions[i].date<<"|$"<<transactions[i].amount<<"\n";
+    }
+}
+void FinanaceManager::generatereport(const string& period) coonst
+{
+    showSummary(period);
+}
+void financeManager::showSummary(const string& period) const
+{
+    doublle totalIncome = 0.0, totalExpense=0.0;
+    for(const auto& t: transactions)
+    {
+        if(t.type=="income")
+        {
+            totalIncome+= t.aamount;
+        }
+        else if(t.type=="expenses)
+        {
+            totalExpenses+= t.ampount;
+        }
+    }
+    cout<<"Summary for"<<period<<":\n";
+    cout<<"Total Income: $"<<totalIncome<<"\n";
+    cout<<"Total Expense: $"<<totalExpense<<"\n";
+    cout<<"Net Saving: $"<<(toatlIncome-totalExpense)<<"\n";
+}
+void FinanceManager::saveTransactions(const string& filename) const{
+    ofstream filename(filename);
+    for(const auto& t:transaction){
+        file<<t.type<<"\n"<<t.category<<"\n"<<t.date<<"\n"<<t.amount<<"\n";
+    }
+}
+void FinanceManager::loadTransactions(const string& filename)
+{
+    ifstream file(filename);
+    if(file.is_open())
+    {
+        transactions.clear();
+        Transactions t("","","",0.0);
+        while(file>>t.type>>t.category>>t.date>>t.amount)
+        {
+            transactions.push_back(t);
+        }
+        else{
+            cout<<"Unable to open file.\n;
+        }
+    }
+}    
+void showMenu()
+    {
+        cout<<"1. AddTransaction\n 2. Update Transaction\n 3. Delete Transactions\n 4. ShowTransaction\n"<<"5. Generate Reprt\n 6. Save Transaction\n 7. Load Transaction\n 8. Exit\n choose an option:";
+    }
+void getTransactonDetails(string& type, String& category, string&date, double amount)
+{
+    cout<<"Enter type(income/expense):";
+    getline(cin, type);
+    cout<<"Enter the category";
+    getline(cin, category);
+    cout<<"Enter date(YYYY-MM-DD):";
+    getline(cin,date);
+    cout<<"Enter amount";
+    getline(cin, amount);
+    cin.ignore();
+}    
+int main()
+{
+    FinanceManager financemanager;
+    int choice;
+    do{
+      showMenu();
+      cin>>choice;
+      cin.ignore();
+      if(choice++1)
+      {
+        string type, category, adte;
+        double amount;
+        getTransactionDetaails(type, category, adte, amount);
+        financemanager.addTransactions(type, category, date, amount);
+      }
+      else if(choice==2)
+      {
+        int index;
+        string type, category, date;
+        double amonut;
+        cout<<"Enter transaction index to update:";
+        cin>>index;
+        cin.ignore();
+        getTransactionDetails(type, category, date, amount);
+        financemanager.updateTransctions(index -1, type, category, date, amount);
+      }
+      else if(choice==3)
+      {
+        int index;
+        cout<<"Enter transaction index to delete:";
+        cin>>index;
+        cin.ignore();
+        financemanager.deleteTransaction(index -1);
+      }
+      else if(choice==4)
+      {
+        financemanager.showTransactions();
+      }
+      else if(choice==5)
+      {
+        string period;
+        cout<<"Enter period (monthly/quarterly/yearly):";
+        getline(cin,period);
+        financemanager.generatorReport(period);
+      }
+      esle if(choice==6)
+      {
+        string filename;
+        cout<<"Enter filename to save transactions:";
+        getline(cin, filename);
+        financemanager.saveTransctions(filename);
+      }
+      ele if(choice==7)
+      {
+        string filename;
+        cout<<"Enter filename to load transactions:";
+        getline(cin,filename);
+        financemanager.loadTransactions(filename);
+      }
+    }
+    while(choice!=8);
+    return 0;
+}
+
+
+
